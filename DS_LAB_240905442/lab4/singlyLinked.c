@@ -3,62 +3,198 @@
 typedef struct node
 {
     int data;
-    struct node* next;
+    struct node *next;
 } node;
 
-node* head = NULL;
+node *head = NULL;
 
-node* createNode(int d)
+node *createNode(int d)
 {
-    node* newNode = (node*)malloc(sizeof(node));
-    newNode -> data = d;
-    newNode -> next = NULL;
+    node *newNode = (node *)malloc(sizeof(node));
+    newNode->data = d;
+    newNode->next = NULL;
     return newNode;
 }
 
 void insertRear(int td)
 {
-
+    node *nn = createNode(td);
+    if (head == NULL)
+    {
+        head = nn;
+    }
+    else
+    {
+        node *cur = head;
+        while (cur->next != NULL)
+            cur = cur->next;
+        cur->next = nn;
+    }
 }
 
 void insertBefore(int tcd, int td)
 {
+    int flag = 0;
+    if (head == NULL)
+    {
+        printf("list is empty\n");
+        return;
+    }
+    else
+    {
+        node *nn = createNode(td);
+        if (head->data == tcd)
+        {
+            nn->next = head;
+            head = nn;
+        }
+        else
+        {
+            node *cur = head;
+            while (cur->next != NULL)
+            {
+                if (cur->next->data == tcd)
+                {
+                    flag = 1;
+                    break;
+                }
+                cur = cur->next;
+            }
+            if (flag == 1)
+            {
+                nn->next = cur->next;
+                cur->next = nn;
+            }
 
+            else
+            {
+                printf("entered element not present in list\n");
+                return;
+            }
+        }
+    }
 }
 
 void insertAfter(int tcd, int td)
 {
+    int flag = 0;
+    if (head == NULL)
+    {
+        printf("list is empty\n");
+        return;
+    }
+    else
+    {
+        node *nn = createNode(td);
+        if (head->data == tcd)
+        {
+            nn->next = head->next;
+            head->next = nn;
+        }
+        else
+        {
+            node *cur = head;
+            while (cur != NULL)
+            {
+                if (cur->data == tcd)
+                {
+                    flag = 1;
+                    break;
+                }
+                cur = cur->next;
+            }
+            if (flag == 1)
+            {
+                nn->next = cur->next;
+                cur->next = nn;
+            }
 
+            else
+            {
+                printf("entered element not present in list\n");
+                return;
+            }
+        }
+    }
 }
 
 void delEle(int td)
 {
-
+    int flag = 1;
+    if (head == NULL)
+    {
+        printf("list is empty\n");
+        return;
+    }
+    else
+    {
+        if (head->data == td)
+        {
+            node *temp = head;
+            head = head->next;
+            free(temp);
+        }
+        else
+        {
+            node *cur = head;
+            while (cur->next != NULL)
+            {
+                if (cur->next->data = td)
+                {
+                    flag = 1;
+                    break;
+                }
+                cur = cur->next;
+            }
+            if (flag == 1)
+            {
+                node *temp = cur->next;
+                cur->next = cur->next->next;
+                free(temp);
+            }
+            else
+            {
+                printf("entered data is not present in the list\n");
+                return;
+            }
+        }
+    }
 }
 
 void travDisplay()
 {
-
+    if (head == NULL)
+    {
+        printf("list is empty\n");
+        return;
+    }
+    else
+    {
+        node *cur = head;
+        while (cur != NULL)
+        {
+            printf("%d -> ", cur->data);
+            cur = cur -> next;
+        }
+        printf("NULL");
+    }
 }
 
 void reverseList()
 {
-
+    
 }
 
 void sortList()
 {
-
 }
 
 void delAltNodes()
 {
-
 }
 
 void insertMaintain(int td)
 {
-
 }
 
 int main()
@@ -67,7 +203,7 @@ int main()
     do
     {
         printf("enter your choice:\n1. Insert Before Specified\n2. Insert After Specified\n3. Delete Element\n4. Traverse and Display\n5. Reverse SLL\n6. Sort SLL\n7. Delete every alternate node from 2 onwards\n8. Insert element in-place\n9. Insert to rear end of list\n");
-        switch(ch)
+        switch (ch)
         {
         case 1:
             printf("enter value of data present in existing node to insert new data before it:\n");
@@ -77,7 +213,7 @@ int main()
             insertBefore(tcd, td);
             break;
 
-         case 2:
+        case 2:
             printf("enter value of data present in existing node to insert new data after it:\n");
             scanf("%d", &tcd);
             printf("enter new data to be inserted:\n");
@@ -129,8 +265,7 @@ int main()
 
         printf("enter 1 to continue and 0 to stop.\n");
         scanf("%d", &cont);
-    }
-    while(cont != 0);
+    } while (cont != 0);
     printf("exited successfully\n");
 
     return 0;
