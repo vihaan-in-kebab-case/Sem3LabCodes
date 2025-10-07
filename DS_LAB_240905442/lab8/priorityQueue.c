@@ -105,16 +105,20 @@ void display()
 int main()
 {
     int cnt = 1, ch;
+    char name[50];
+    int age, priority;
     do
     {
-        printf("enter choice:\n1. queue an element\n2. dequeue an element\n3. display all queue elements\n");
+        printf("enter choice:\n1. queue a patient\n2. dequeue a patient based on priority\n3. display all queued patients\n");
         scanf("%d", &ch);
         switch(ch)
         {
             case 1: int i;
-                    printf("enter element to queue\n");
-                    scanf("%d", &i);
-                    enqueue(i);
+                    printf("enter name, age and priority of patient to queue\n");
+                    scanf("%s", name);
+                    scanf("%d", &age);
+                    scanf("%d", &priority);
+                    enqueue(name, age, priority);
             break;
 
             case 2: dequeue();
