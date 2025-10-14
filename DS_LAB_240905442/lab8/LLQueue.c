@@ -8,6 +8,7 @@ typedef struct SLL
 
 SLL* front = NULL;
 SLL* rear = NULL;
+int count = 0;
 
 void enqueue(int ele)
 {
@@ -21,6 +22,7 @@ void enqueue(int ele)
     if(rear != NULL)
         rear -> next = nn;
     rear = nn;
+    count++;
 }
 
 int dequeue()
@@ -48,6 +50,7 @@ int dequeue()
             front = front -> next;
             return tempEle;
         }
+        count--;
     }
 }
 
@@ -56,12 +59,49 @@ void display()
     printf("elements in queue:\n");
     if(front == NULL)
         printf("queue is empty\n");
-        
+
     SLL* temp = front;
     while(temp != NULL)
     {
         printf("%d\n", temp -> ele);
         temp = temp -> next;
+    }
+}
+
+void reverseAlt()
+{
+    if(front == NULL)
+    {
+        printf("queue is empty\n");
+        return;
+    }
+
+    if(front == rear)
+    {
+        printf("single node in queue, cant swap\n");
+        return;
+    }
+
+    if(count%2 != 0)
+    {
+        printf("odd number of nodes in list, cannot perform operation\n");
+        return;
+    }
+
+    SLL* cur = front;
+    int temp;
+
+    int k = 0;
+    while(cur != NULL)
+    {
+        if(k%4==0)
+        {
+            temp = cur -> ele;
+            cur -> ele = cur -> next -> ele;
+            cur -> next -> ele = temp;
+        }
+        k++;
+        cur = cur -> next;
     }
 }
 
@@ -91,5 +131,8 @@ int main()
         printf("enter 1 to continue and 0 to exit\n");
         scanf("%d", &cnt);
     } while (cnt != 0);
+
+    reverseAlt();
+    display();
     return 0;
 }

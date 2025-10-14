@@ -104,17 +104,35 @@ node* findAddress(node* r, int data) {
     return NULL;
 }
 
-
-void findAncestors(node* r, int data, node* ar)
+int search(node* current, int data)
 {
-    if(ar == NULL)
+    if (current == NULL)
+        return 0;
+
+    if (current->data == data)
+        return 1;
+
+    if (search(current->lchild, data) || search(current->rchild, data))
+        return 1;
+
+    return 0;
+}
+
+void findAncestors(node* c, int data)
+{
+    if(root == NULL)
+    {
+        printf("tree is empty\n");
         return;
-    if(r == ar)
+    }
+
+    if(c == root)
         return;
-    int parentData = findParent(ar, data);
+
+    int parentData = findParent(root, data);
     printf("%d\t", parentData);
-    node* padd = findAddress(ar, parentData);
-    findAncestors(padd, parentData, ar);
+    node* padd = findAddress(root, parentData);
+    findAncestors(padd, parentData);
 }
 
 int countLeafNodes()
@@ -127,7 +145,7 @@ int main()
     int cnt = 1, ch, td;
     printf("enter values as indicated to create the binary tree.\n");
         root = createBT();
-    /*do
+    do
     {
         printf("enter choice:\n1. create fresh binary tree\n2. inorder traversal\n3. postorder traversal\n4. preorder traversal\n5. find parent of specific node\n6. find depth of tree\n7. find ancestors of specific node\n8. find number of leaf nodes\n");
         scanf("%d", &ch);
@@ -153,7 +171,7 @@ int main()
             break;
 
             case 5: printf("enter data to find parent of:\n");
-                    scanf("%d", td);
+                    scanf("%d", &td);
                     int p = findParent(root, td);
                     printf("parent of %d is: %d\n", td, p);
             break;
@@ -164,9 +182,17 @@ int main()
             break;
 
             case 7: printf("enter data to find ancestors of:\n");
-                    scanf("%d", td);
-                    findAncestors(NULL, td, root);
-                    printf("\n");
+                    scanf("%d", &td);
+                    if(search(root, td) == 0)
+                        printf("entered data not present in tree\n");
+                    else if(root -> data == td)
+                        printf("root node does not have ancestors\n");
+                    else
+                    {
+                        printf("ancestors of %d are: ", td);
+                        findAncestors(findAddress(root, td), td);
+                        printf("\n");
+                    }
             break;
 
             case 8: printf("number of leaf nodes in binary tree: ");
@@ -179,6 +205,6 @@ int main()
 
         printf("enter 1 to continue and 0 to stop.\n");
         scanf("%d", &cnt);
-    }while(cnt != 0);*/
+    }while(cnt != 0);
     return 0;
 }
